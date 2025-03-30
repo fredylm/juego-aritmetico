@@ -1,0 +1,108 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Juego Aritmético Infantil</title>
+  <style>
+    body { font-family: Comic Sans MS, sans-serif; background: #e0f7fa; padding: 20px; }
+    h1 { text-align: center; color: #ff6f00; font-size: 2em; }
+    input, select, button {
+      font-size: 1.2em;
+      padding: 10px;
+      margin: 5px;
+      border-radius: 10px;
+      width: 100%;
+    }
+    button {
+      background-color: #00796b;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover { background-color: #004d40; }
+    #juego {
+      display: none;
+      background: #fff3e0;
+      padding: 15px;
+      border-radius: 10px;
+      margin-top: 20px;
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      top: 20%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #fff;
+      border: 2px solid #333;
+      border-radius: 10px;
+      padding: 20px;
+      width: 80%;
+      max-height: 60%;
+      overflow-y: auto;
+      z-index: 1000;
+    }
+    #user-list li { cursor: pointer; font-size: 1.2em; }
+    .selected { font-weight: bold; color: #00796b; }
+    #pregunta { font-size: 2em; color: #d84315; }
+    @media screen and (max-width: 600px) {
+      h1 { font-size: 1.5em; }
+      input, select, button { font-size: 1em; }
+      button { padding: 12px; }
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/localforage@1.10.0/dist/localforage.min.js"></script>
+</head>
+<body>
+  <h1>🎲 Juego Aritmético Infantil</h1>
+
+  <h3>👦 Usuarios</h3>
+  <input id="new-user" placeholder="Nombre de usuario">
+  <button onclick="addUser()">Agregar</button>
+  <button onclick="editUser()">Editar</button>
+  <button onclick="deleteUser()">Eliminar</button>
+  <ul id="user-list"></ul>
+  <p>Jugador actual: <strong id="jugador">Ninguno</strong></p>
+
+  <h3>⚙️ Configuración</h3>
+  <label>Tiempo: <input id="tiempo" type="number" value="30" min="10"> segundos</label><br>
+  <label><input type="checkbox" id="op-sum" checked> ➕</label>
+  <label><input type="checkbox" id="op-sub"> ➖</label>
+  <label><input type="checkbox" id="op-mul"> ✖️</label>
+  <label><input type="checkbox" id="op-div"> ➗</label><br>
+  <label>Dificultad:
+    <select id="dificultad">
+      <option value="easy">Fácil</option>
+      <option value="medium">Media</option>
+      <option value="hard">Difícil</option>
+    </select>
+  </label><br>
+  <button onclick="iniciarJuego()">🚀 Iniciar Juego</button>
+  <button onclick="verHistorial()">📜 Ver Historial</button>
+
+  <div id="juego">
+    <p>⏳ Tiempo restante: <span id="tiempo-restante">0</span> s</p>
+    <p>✅ Aciertos: <span id="aciertos">0</span></p>
+    <p id="pregunta" style="font-size: 2em;"></p>
+    <input id="respuesta" type="number">
+    <button onclick="responder()">Responder</button>
+    <p id="feedback"></p>
+  </div>
+
+  <div id="modal-resultado" class="modal">
+    <h3>🎉 Resultado de la Partida</h3>
+    <div id="contenido-resultado"></div>
+    <button onclick="document.getElementById('modal-resultado').style.display='none'">Cerrar</button>
+  </div>
+
+  <div id="modal-historial" class="modal">
+    <h3>📚 Historial</h3>
+    <div id="contenido-historial"></div>
+    <button onclick="document.getElementById('modal-historial').style.display='none'">Cerrar</button>
+  </div>
+
+  <script src="main-indexeddb.js"></script>
+</body>
+</html>

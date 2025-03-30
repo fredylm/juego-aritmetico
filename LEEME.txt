@@ -1,0 +1,13 @@
+
+INSTRUCCIONES PARA USAR EL JUEGO EN COMPUTADORA Y CELULAR
+
+1. Asegúrate de tener Python instalado.
+2. Descomprime este ZIP en una carpeta.
+3. Haz doble clic en el archivo "servidor.py".
+4. Se abrirá una ventana del navegador en http://localhost:8000
+
+Si quieres usarlo desde tu celular:
+- Asegúrate de que tu celular esté en la misma red Wi-Fi que tu computadora.
+- Abre en Chrome móvil: http://<IP-de-tu-PC>:8000
+
+(Para conocer la IP de tu computadora, abre una terminal y escribe "ipconfig" o "ifconfig")
