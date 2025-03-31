@@ -9,14 +9,6 @@ let tiempoRestante = 0;
 let temporizador;
 let subnivel = 1;
 
-const tablasMultiplicacion = {
-  1: [0,1,2,3],
-  2: [0,1,2,3,4,5],
-  3: [0,1,2,3,4,5,6,7],
-  4: [0,1,2,3,4,5,6,7,8,9],
-  5: [0,1,2,3,4,5,6,7,8,9,10]
-};
-
 async function cargarUsuarios() {
   const usuarios = (await localforage.getItem("usuarios")) || [];
   const lista = document.getElementById("user-list");
@@ -87,10 +79,10 @@ async function iniciarJuego() {
   if (isNaN(tiempo) || tiempo < 10) return alert("Tiempo mínimo 10s");
 
   const operaciones = [];
-  if (document.getElementById("op-sum").checked) operaciones.push("+");
-  if (document.getElementById("op-sub").checked) operaciones.push("-");
-  if (document.getElementById("op-mul").checked) operaciones.push("*");
-  if (document.getElementById("op-div").checked) operaciones.push("/");
+  if (document.getElementById("op-sum").checked) operaciones.push("suma");
+  if (document.getElementById("op-sub").checked) operaciones.push("resta");
+  if (document.getElementById("op-mul").checked) operaciones.push("multiplicacion");
+  if (document.getElementById("op-div").checked) operaciones.push("division");
 
   if (operaciones.length === 0) return alert("Selecciona al menos una operación");
 
@@ -121,40 +113,34 @@ async function iniciarJuego() {
   }, 1000);
 }
 
+function generarOperando(rango) {
+  const [min, max] = rango;
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
 function siguienteOperacion(operaciones, dificultad) {
   const op = operaciones[Math.floor(Math.random() * operaciones.length)];
-  const nivelMap = { easy: 9, medium: 20, hard: 50, expert: 100 };
-  const maxRango = nivelMap[dificultad] || 10;
-  const subrango = Math.floor((maxRango / 5) * subnivel);
-  const rango = Math.max(1, subrango);
-  let a = Math.floor(Math.random() * rango) + 1;
-  let b = Math.floor(Math.random() * rango) + 1;
+  const rangos = niveles[op][dificultad][subnivel - 1];
+  let [r1, r2] = rangos;
+  let a = generarOperando(r1);
+  let b = generarOperando(r2);
 
-  if (op === "-") {
+  if (op === "suma") {
+    respuestaCorrecta = a + b;
+    simbolo = "+";
+  } else if (op === "resta") {
     if (b > a) [a, b] = [b, a];
     respuestaCorrecta = a - b;
-  } else if (op === "*") {
-    if (dificultad === "easy") {
-      const valores = tablasMultiplicacion[subnivel] || [1,2,3];
-      a = valores[Math.floor(Math.random() * valores.length)];
-      b = valores[Math.floor(Math.random() * valores.length)];
-    }
+    simbolo = "-";
+  } else if (op === "multiplicacion") {
     respuestaCorrecta = a * b;
-  } else if (op === "/") {
-    if (dificultad === "easy") {
-      const valores = tablasMultiplicacion[subnivel] || [1,2,3];
-      b = valores[Math.floor(Math.random() * valores.length)] || 1;
-      a = b * (valores[Math.floor(Math.random() * valores.length)] || 1);
-    } else {
-      b = Math.floor(Math.random() * rango) + 1;
-      a = b * (Math.floor(Math.random() * rango) + 1);
-    }
-    respuestaCorrecta = a / b;
-  } else {
-    respuestaCorrecta = a + b;
+    simbolo = "×";
+  } else if (op === "division") {
+    respuestaCorrecta = b;
+    a = b * a;
+    simbolo = "÷";
   }
 
-  const simbolo = op === "*" ? "×" : op === "/" ? "÷" : op;
   document.getElementById("pregunta").textContent = `${a} ${simbolo} ${b}`;
   document.getElementById("respuesta").value = "";
   setTimeout(() => document.getElementById("respuesta").focus(), 50);
@@ -179,10 +165,10 @@ function responder() {
   }
   total++;
   const ops = [];
-  if (document.getElementById("op-sum").checked) ops.push("+");
-  if (document.getElementById("op-sub").checked) ops.push("-");
-  if (document.getElementById("op-mul").checked) ops.push("*");
-  if (document.getElementById("op-div").checked) ops.push("/");
+  if (document.getElementById("op-sum").checked) ops.push("suma");
+  if (document.getElementById("op-sub").checked) ops.push("resta");
+  if (document.getElementById("op-mul").checked) ops.push("multiplicacion");
+  if (document.getElementById("op-div").checked) ops.push("division");
   const dificultad = document.getElementById("dificultad").value;
   siguienteOperacion(ops, dificultad);
 }
