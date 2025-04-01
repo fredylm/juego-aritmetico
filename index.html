@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -34,9 +33,7 @@
     #juego, #modal-resultado, #modal-historial, #modal-usuarios {
       background: #fffde7;
     }
-    .seccion {
-      margin-bottom: 20px;
-    }
+    .seccion { margin-bottom: 20px; }
     .selected { font-weight: bold; color: #00796b; }
   </style>
   <script src="https://cdn.jsdelivr.net/npm/localforage@1.10.0/dist/localforage.min.js"></script>
@@ -44,14 +41,12 @@
 </head>
 <body>
   <h1>Juego Aritmético Infantil</h1>
-
   <div class="seccion">
     <label for="user-list">Selecciona un usuario:</label>
     <ul id="user-list"></ul>
     <p>Jugador actual: <strong id="jugador">Ninguno</strong></p>
     <button onclick="abrirModalUsuarios()">Gestionar usuarios</button>
   </div>
-
   <div class="seccion">
     <label>Tiempo: <input id="tiempo" type="number" value="30" min="10" /></label><br />
     <label><input type="checkbox" id="op-sum" checked /> ➕</label>
@@ -69,7 +64,6 @@
     <button onclick="abrirJuego()">🚀 Iniciar Partida</button>
     <button onclick="verHistorial()">📜 Ver Historial</button>
   </div>
-
   <div id="modal-usuarios" class="modal">
     <h3>👦 Gestión de Usuarios</h3>
     <input id="new-user" placeholder="Nombre de usuario" />
@@ -78,7 +72,6 @@
     <button onclick="deleteUser()">Eliminar</button><br />
     <button onclick="cerrarModal('modal-usuarios')">Cerrar</button>
   </div>
-
   <div id="modal-juego" class="modal">
     <h3>🧠 A jugar</h3>
     <p>⏳ Tiempo restante: <span id="tiempo-restante">0</span> s</p>
@@ -90,19 +83,16 @@
     <button onclick="responder()">Responder</button>
     <p id="feedback"></p>
   </div>
-
   <div id="modal-resultado" class="modal">
     <h3>🎉 Resultado de la Partida</h3>
     <div id="contenido-resultado"></div>
     <button onclick="cerrarModal('modal-resultado')">Cerrar</button>
   </div>
-
   <div id="modal-historial" class="modal">
     <h3>📚 Historial</h3>
     <div id="contenido-historial"></div>
     <button onclick="cerrarModal('modal-historial')">Cerrar</button>
   </div>
-
   <script src="main-ui-reorganizado.js"></script>
 </body>
 </html>
